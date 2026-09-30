@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABSEN</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div>
+        <h1>ABSEN</h1>
+        <p>Absensi & rekap karyawan</p>
+    </div>
+    <div class="period">
+        <select id="monthSelect"></select>
+        <select id="yearSelect"></select>
+    </div>
+</header>
+
+<section class="toolbar">
+    <div class="toolbar-main">
+        <button class="btn primary" id="addEmployeeBtn">＋ Tambah Karyawan</button>
+        <button class="btn" id="printBtn">🖨 Print</button>
+        <button class="btn excel" id="exportBtn">▣ Export Excel</button>
+    </div>
+    <div class="toolbar-info">
+        <span>Tarif lembur / jam</span>
+        <input id="overtimeRate" type="number" min="0" step="1000" value="0">
+    </div>
+</section>
+
+<section class="summary">
+    <div class="summary-card">
+        <span>Karyawan</span>
+        <strong id="summaryEmployees">0</strong>
+    </div>
+    <div class="summary-card">
+        <span>Total hari kerja</span>
+        <strong id="summaryAttendance">0</strong>
+    </div>
+    <div class="summary-card">
+        <span>Total lembur</span>
+        <strong id="summaryOvertime">0</strong>
+    </div>
+    <div class="summary-card">
+        <span>Total bon</span>
+        <strong id="summaryDebt">Rp0</strong>
+    </div>
+    <div class="summary-card highlight">
+        <span>Total pembayaran</span>
+        <strong id="summarySalary">Rp0</strong>
+    </div>
+</section>
+
+<main class="content">
+    <div class="table-shell">
+        <div class="table-scroll">
+            <table id="attendanceTable">
+                <thead id="tableHeader"></thead>
+                <tbody id="tableBody"></tbody>
+                <tfoot id="tableFooter"></tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="legend">
+        <b>Kode absen:</b>
+        <span><i>1</i> = full hari</span>
+        <span><i>½</i> = setengah hari</span>
+        <span><i>0</i> = tidak masuk</span>
+        <span><i>X</i> / <i>R</i> = kode lain, belum dihitung sebagai hari kerja</span>
+    </div>
+</main>
+
+<div class="modal hidden" id="employeeModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h2>Tambah Karyawan</h2>
+            <button class="icon-btn" id="closeModalBtn">×</button>
+        </div>
+
+        <label>Nama karyawan</label>
+        <input id="employeeName" type="text" placeholder="Contoh: Budi">
+
+        <label>Tarif per hari</label>
+        <input id="employeeRate" type="number" min="0" step="1000" placeholder="Contoh: 150000">
+
+        <div class="modal-actions">
+            <button class="btn" id="cancelEmployeeBtn">Batal</button>
+            <button class="btn primary" id="saveEmployeeBtn">Tambah</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

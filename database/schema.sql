@@ -1,0 +1,41 @@
+CREATE DATABASE IF NOT EXISTS absen_karyawan
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE absen_karyawan;
+
+CREATE TABLE IF NOT EXISTS employees (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    daily_rate DECIMAL(15,2) NOT NULL DEFAULT 0,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS monthly_settings (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    month TINYINT UNSIGNED NOT NULL,
+    year SMALLINT UNSIGNED NOT NULL,
+    overtime_rate DECIMAL(15,2) NOT NULL DEFAULT 0,
+    UNIQUE KEY unique_period (month, year)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS attendances (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT UNSIGNED NOT NULL,
+    attendance_date DATE NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_employee_date (employee_id, attendance_date),
+    CONSTRAINT fk_attendance_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS monthly_extras (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT UNSIGNED NOT NULL,
+    month TINYINT UNSIGNED NOT NULL,
+    year SMALLINT UNSIGNED NOT NULL,
+    overtime DECIMAL(10,2) NOT NULL DEFAULT 0,
+    debt DECIMAL(15,2) NOT NULL DEFAULT 0,
+    UNIQUE KEY unique_employee_period (employee_id, month, year),
+    CONSTRAINT fk_extras_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
